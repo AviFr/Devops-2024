@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables
+        GOROOT = '/usr/local/go'
+        GOPATH = "${env.WORKSPACE}/go"
+        PATH = "${env.PATH}:${GOROOT}/bin:${GOPATH}/bin"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                git 'https://github.com/your-username/my-go-project.git'
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                // Install Go dependencies
+                sh 'go mod tidy'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Build the Go project
+                sh 'go build -o myapp'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Run tests
+                sh 'go test ./...'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Deploy the application (this is just a placeholder)
+                echo 'Deploying the application...'
+                // Add your deploy commands here
+            }
+        }
+    }
+}
